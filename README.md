@@ -11,12 +11,12 @@ Similar to Program 1, Our group has chosen to take a pair programming approach t
 #### Group 1
 **Bryce Coln and Everett Patterson**
 Tasks:
-* TBD
+* Linked List
 
 #### Group 2
 **Lloyd Galvez and Robert Morriss**
 Tasks:
-* TBD
+* Data Class
 
 ## Classes
 ### Linked List Class
