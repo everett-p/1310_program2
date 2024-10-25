@@ -8,8 +8,41 @@
 #ifndef INVITEM_H
 #define INVITEM_H
 
+#include <iostream>
 using namespace std;
+class InvItem {
+    private:
+        string name;
+        int price, // USD
+            weight, // lbs. / oz.
+            unitPrice, // ¢/oz.
+            quantity,
+            binID; // Stored id for organization in listing
+    public:
+        // Constructors and Destructors
 
-//Test Change
+        InvItem();
+        InvItem(string);
+        InvItem(string, int);
+        InvItem(string, int, int, int, int);
+        ~InvItem();
+
+        // Getters
+        string getName();
+        int getPrice();
+        int getWeight();
+        int getUnitPrice();
+        int getQuantity();
+        int getID();
+
+        // Setters
+
+        void setName(string);
+        void setPrice(int);
+        void setWeight(int);
+        void setUnitPrice(int);
+        void setQuantity(int);
+        void setID(int);
+};
 
 #endif
