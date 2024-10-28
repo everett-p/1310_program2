@@ -6,6 +6,7 @@
 */
 
 #include "InvItem.h"
+#include <iomanip>
 
 // Constructors
 
@@ -50,7 +51,7 @@ InvItem::InvItem(string n, float p, int w, int q, int ID) {
 string InvItem::getName() { return this->name; }
 float InvItem::getPrice() { return this->price; }
 int InvItem::getWeight() { return this->weight;}
-int InvItem::getUnitPrice() { return this->unitPrice; }
+float InvItem::getUnitPrice() { return this->unitPrice; }
 int InvItem::getQuantity() { return this->quantity; }
 int InvItem::getID() { return this->binID; }
 
@@ -69,8 +70,9 @@ ostream& operator<<(ostream& output, const InvItem& item) {
     output << "\n******************** ITEM: " << item.name << " ********************" << endl;
     output << "\tPRICE: $" << item.price << endl;
     output << "\tWEIGHT: " << (item.weight / 16) << "lbs. " << (item.weight % 16) << "oz." << endl;
-    output << "\tUNIT PRICE: " << item.unitPrice << endl;
+    output << "\tUNIT PRICE: " << setprecision(2) << item.unitPrice << "¢/oz."<< endl;
     output << "\tQUANTITY: " << item.quantity << endl;
+    output << "\tBIN ID: " << item.binID << endl;
     return output;
 }
 bool operator<(const InvItem& item1, const InvItem& item2) { return item1.binID < item2.binID; }

@@ -21,7 +21,7 @@ class InvItem {
             binID; // Stored id for organization in listing
 
         // Helpers
-        float calcUnitPrice() { return weight / price * 100; }
+        float calcUnitPrice() { return weight / (price * 100); }
     public:
         // Constructors and Destructors
 
@@ -35,7 +35,7 @@ class InvItem {
         string getName();
         float getPrice();
         int getWeight();
-        int getUnitPrice();
+        float getUnitPrice();
         int getQuantity();
         int getID();
 
