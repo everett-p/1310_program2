@@ -44,9 +44,9 @@ class InvItem {
         void setName(string);
         void setPrice(float);
         void setWeight(int);
-        void setUnitPrice(int);
         void setQuantity(int);
         void setID(int);
+        void updateUnitPrice();
 
         // Operator Overloading
 

@@ -45,6 +45,24 @@ InvItem::InvItem(string n, float p, int w, int q, int ID) {
     this->unitPrice = calcUnitPrice();
 }
 
+// Getters 
+
+string InvItem::getName() { return this->name; }
+float InvItem::getPrice() { return this->price; }
+int InvItem::getWeight() { return this->weight;}
+int InvItem::getUnitPrice() { return this->unitPrice; }
+int InvItem::getQuantity() { return this->quantity; }
+int InvItem::getID() { return this->binID; }
+
+// Setters
+
+void InvItem::setName(string n) { this->name = n; }
+void InvItem::setPrice(float p) { this->price = p; }
+void InvItem::setWeight(int w) { this->weight = w;}
+void InvItem::setQuantity(int q) { this->quantity = q; }
+void InvItem::setID(int ID) { this->binID = ID; }
+void InvItem::updateUnitPrice() { this->unitPrice = calcUnitPrice(); }
+
 // Operator Overloading
 
 ostream& operator<<(ostream& output, const InvItem& item) {
