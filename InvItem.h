@@ -8,13 +8,14 @@
 #ifndef INVITEM_H
 #define INVITEM_H
 
+#include <fstream>
 #include <iostream>
 using namespace std;
 class InvItem {
     private:
         string name;
-        int price, // USD
-            weight, // lbs. / oz.
+        float price; // in $
+        int weight, // in oz.
             unitPrice, // ¢/oz.
             quantity,
             binID; // Stored id for organization in listing
@@ -29,7 +30,7 @@ class InvItem {
 
         // Getters
         string getName();
-        int getPrice();
+        float getPrice();
         int getWeight();
         int getUnitPrice();
         int getQuantity();
@@ -38,11 +39,21 @@ class InvItem {
         // Setters
 
         void setName(string);
-        void setPrice(int);
+        void setPrice(float);
         void setWeight(int);
         void setUnitPrice(int);
         void setQuantity(int);
         void setID(int);
+
+        // Operator Overloading
+
+        friend ostream& operator<<(ostream&, const InvItem&);
+        friend bool operator<(const InvItem&, const InvItem&);
+        friend bool operator>(const InvItem&, const InvItem&);
+        friend bool operator==(const InvItem&, const InvItem&);
+        friend bool operator<=(const InvItem&, const InvItem&);
+        friend bool operator>=(const InvItem&, const InvItem&);
+
 };
 
 #endif
