@@ -14,19 +14,22 @@ using namespace std;
 class InvItem {
     private:
         string name;
-        float price; // in $
+        float price, // in $
+              unitPrice; // ¢/oz.
         int weight, // in oz.
-            unitPrice, // ¢/oz.
             quantity,
             binID; // Stored id for organization in listing
+
+        // Helpers
+        float calcUnitPrice() { return weight / price * 100; }
     public:
         // Constructors and Destructors
 
         InvItem();
         InvItem(string);
         InvItem(string, int);
-        InvItem(string, int, int, int, int);
-        ~InvItem();
+        InvItem(string, float, int, int, int);
+        ~InvItem(){}
 
         // Getters
         string getName();

@@ -7,10 +7,42 @@
 
 #include "InvItem.h"
 
-// Constructors / Destructor
+// Constructors
 
 InvItem::InvItem() {
-    
+    this->name = "";
+    this->price = 0.00;
+    this->weight = 0;
+    this->quantity = 0;
+    this->binID = 0;
+    this->unitPrice = calcUnitPrice();
+}
+
+InvItem::InvItem(string n) {
+    this->name = n;
+    this->price = 0.00;
+    this->weight = 0;
+    this->quantity = 0;
+    this->binID = 0;
+    this->unitPrice = calcUnitPrice();
+}
+
+InvItem::InvItem(string n, int ID) {
+    this->name = n;
+    this->price = 0.00;
+    this->weight = 0;
+    this->quantity = 0;
+    this->binID = ID;
+    this->unitPrice = calcUnitPrice();
+}
+
+InvItem::InvItem(string n, float p, int w, int q, int ID) {
+    this->name = n;
+    this->price = p;
+    this->weight = w;
+    this->quantity = q;
+    this->binID = ID;
+    this->unitPrice = calcUnitPrice();
 }
 
 // Operator Overloading
