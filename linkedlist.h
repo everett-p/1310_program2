@@ -10,15 +10,7 @@ template <typename L>
 class List
 {
     private:
-        /*struct Node
-        {
-            L value;
-            struct Node *next;
-            Node(L val) : value(val), next(nullptr) {}
-        };
-
-        Node * head;*/
-
+    
         ListNode<L>* head;
 
         //append function
@@ -169,7 +161,7 @@ class List
 
     public:
 
-        List() : head(nullptr) {} // Constructor
+        List<L>() : head(nullptr) {} // Constructor
 
         /*
         QuickSort
@@ -197,8 +189,44 @@ class List
         }
 
         //quicksortRUN
+        void quicksortRUN(ListNode<L>* low, ListNode<L>* high, bool upDown)
+        {
+            if (high != nullptr && low != high && low != high->iterate()) 
+            {
+                ListNode<L>* X = partition(low, high, upDown); 
+                quicksortRUN(low, X->iterate(), upDown); 
+                quicksortRUN(X->iterate(), high, upDown); 
+            }
+        }
 
         //quicksort
+        void quickSort(bool upDown)
+        {
+            ListNode<L>* high = head;
+            while (high && high->iterate() != nullptr) 
+            {
+                high = high->iterate();
+            }
+            quicksortRUN(head, high, upDown);
+        }
+
+
+        /*
+        
+        */
+    friend ostream& operator<<(ostream& stream, const List<L>& list) 
+    {
+        ListNode<L>* temp = list.head; // Start from the head
+        while (temp != nullptr)
+        {
+            int i = 1;
+            cout << i <<":"<< endl;
+            stream << temp->getData() << " "; // Output the data of each node
+            temp = temp->iterate(); // Move to the next node
+            i++;
+        }
+        return stream; // Return the stream
+    }
 
 
 
