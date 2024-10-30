@@ -151,9 +151,9 @@ class List
         }
 
 
-        void swap(T& a, T& b) 
+        void swap(L& a, L& b) 
         {
-            T temp = a; 
+            L temp = a; 
             a = b;      
             b = temp;  
         }
