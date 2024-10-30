@@ -10,25 +10,27 @@ template <typename L>
 class List
 {
     private:
-        struct Node
+        /*struct Node
         {
             L value;
             struct Node *next;
             Node(L val) : value(val), next(nullptr) {}
         };
 
-        Node * head;
+        Node * head;*/
+
+        ListNode<L>* head;
 
         //append function
         void append(L val)
         {
-            Node* newNode = new Node(val);
+            ListNode<L>* newNode = new ListNode<L>(val);
             if (!head) 
             {
                 head = newNode; // If the list is empty, make newNode the head
                 return;
             }
-            Node* temp = head;
+            ListNode<L>* temp = head;
             while (temp->next) 
             {
                 temp = temp->next;
@@ -40,12 +42,12 @@ class List
         //prepend function
         void prepend(L val)
         {
-            Node* newNode = new Node(val);
+            ListNode<L>* newNode = new ListNode<L>(val);
             if (!head) 
             {
                 head = newNode; // If the list is empty, make newNode the head
             }
-            Node* temp = head;
+            ListNode<L>* temp = head;
             newNode->next = head;
             head = newNode
             return;
@@ -54,13 +56,13 @@ class List
         //insert function
         void insert(L val, int index)
         {
-            Node* newNode = new Node(val);
+            ListNode<L>* newNode = new ListNode<L>(val);
             if (!head) 
             {
                 head = newNode; // If the list is empty, make newNode the head
                 return;
             }
-            Node* temp = head;
+            ListNode<L>* temp = head;
             int test = 0;
 
             // Traverse to the node just before the desired index
@@ -97,8 +99,8 @@ class List
                 cout << "List is empty." << endl;
                 return;
             }
-            Node* temp = head;
-            Node* temp2 = head;
+            ListNode<L>* temp = head;
+            ListNode<L>* temp2 = head;
             temp2 = temp2->next;
 
             while (temp2 != nullptr)
@@ -121,7 +123,7 @@ class List
             }
 
             int test = 0;
-            Node* temp = head;
+            ListNode<L>* temp = head;
             while (temp != nullptr && test <= index-1) 
             {
                 temp = temp->next;
@@ -139,8 +141,8 @@ class List
         void deleteItem(int index)
         {
             int test = 0;
-            Node* temp = head;
-            Node* temp2 = head;
+            ListNode<L>* temp = head;
+            ListNode<L>* temp2 = head;
             while (temp != nullptr && test <= index) 
             {
                 temp2 = temp;
