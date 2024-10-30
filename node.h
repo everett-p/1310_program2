@@ -6,9 +6,24 @@ class ListNode
 {
     private: 
         L value;
-        struct ListNode *next;
+        ListNode<L> *next;
     public:
         ListNode(L val) : value(val), next(nullptr) {}
+
+        L getData()
+        {
+            return value;
+        }
+
+        void setData(L test) 
+        {
+            value = test;
+        }
+
+        ListNode* iterateForward() 
+        {
+            return next;
+        }
 
         
 
