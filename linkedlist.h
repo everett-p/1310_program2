@@ -158,6 +158,15 @@ class List
             delete temp;
         }
 
+
+        void swap(T& a, T& b) 
+        {
+            T temp = a; 
+            a = b;      
+            b = temp;  
+        }
+
+
     public:
 
         List() : head(nullptr) {} // Constructor
@@ -178,13 +187,13 @@ class List
                 {
                     if (i != j) 
                     {
-                        swap(i->getData(), j->getData()); // Swap the values
+                        swap(i->getData(), j->getData());
                     }
-                i = i->iterate(); // Move to the next element
+                i = i->iterate();
                 }
             }
-
-
+            swap(i->getData(), high->getData());
+            return i;
         }
 
         //quicksortRUN
