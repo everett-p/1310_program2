@@ -158,17 +158,40 @@ class List
             delete temp;
         }
 
-        //quicksort
-
-
-
-
-
-
-
     public:
 
         List() : head(nullptr) {} // Constructor
+
+        /*
+        QuickSort
+        */
+
+        //partition
+        ListNode<L>* partition(ListNode<L>* low, ListNode<L>* high, bool upDown)
+        {
+            L pivot = high->getData();
+            ListNode<L>* i = low;
+
+            for (ListNode<L>* j = low ; j <= high ; j->iterate())
+            {
+                if ((upDown && j->getData() <= pivot) || (!upDown && j->getData() >= pivot)) 
+                {
+                    if (i != j) 
+                    {
+                        swap(i->getData(), j->getData()); // Swap the values
+                    }
+                i = i->iterate(); // Move to the next element
+                }
+            }
+
+
+        }
+
+        //quicksortRUN
+
+        //quicksort
+
+
 
 };
 
