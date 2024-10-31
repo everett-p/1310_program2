@@ -2,34 +2,34 @@
 #define LINKEDLIST_H
 
 #include <iostream>
-#include "node.h"
+#include "ListNode.h"
 
 using namespace std;
 
 template <typename L>
-class List
+class LinkedList
 {
     private:
     
         ListNode<L>* head;
 
         //append function
-        void append(L val)
-        {
-            ListNode<L>* newNode = new ListNode<L>(val);
-            if (!head) 
-            {
-                head = newNode; // If the list is empty, make newNode the head
-                return;
-            }
-            ListNode<L>* temp = head;
-            while (temp->next) 
-            {
-                temp = temp->next;
-            }
-            temp->next = newNode;
-            return;
-        }
+        void append(L val);
+        // {
+        //     ListNode<L>* newNode = new ListNode<L>(val);
+        //     if (!head) 
+        //     {
+        //         head = newNode; // If the list is empty, make newNode the head
+        //         return;
+        //     }
+        //     ListNode<L>* temp = head;
+        //     while (temp->next) 
+        //     {
+        //         temp = temp->next;
+        //     }
+        //     temp->next = newNode;
+        //     return;
+        // }
 
         //prepend function
         void prepend(L val)
