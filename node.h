@@ -1,3 +1,11 @@
+/*
+*   Author: Everett Patterson, Robert J. Morriss
+*   Date: 10/28/24
+*   File: node.h
+*   Purpose: Header file for listNode class for CSC 1310 105 Program 2
+*/
+
+
 #ifndef NODE_H
 #define NODE_H
 
@@ -8,27 +16,20 @@ class ListNode
         L value;
         ListNode<L> *next;
     public:
-        ListNode(L val) : value(val), next(nullptr) {}
 
-        L getData()
-        {
-            return value;
-        }
+        // CONSTRUCTOR / DESTRUCTOR
+        ListNode(L);
+        ~ListNode();
 
-        void setData(L test) 
-        {
-            value = test;
-        }
+        // GETTERS
 
-        ListNode* iterateForward() 
-        {
-            return next;
-        }
+        L getData();
+        ListNode<L>* getNext();
 
-        
+        // SETTERS
 
-
-
+        void setData(L val);
+        void setNext(ListNode<L>* newNode);
 };
 
 #endif
