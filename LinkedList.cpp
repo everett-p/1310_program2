@@ -122,6 +122,8 @@ void LinkedList<L>::deleteItem(int index)
 template <typename L> //get first item
 ListNode<L>* LinkedList<L>::getHead()
 {
+    ListNode<L>* temp = HEAD;
+    ListNode<L>* temp2 = HEAD;
     if (HEAD == NULL) 
     {
         temp2->setNext(temp->getNext());
