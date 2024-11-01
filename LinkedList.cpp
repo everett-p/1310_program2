@@ -113,20 +113,40 @@ void LinkedList<L>::deleteItem(int index)
     {
         cout << "OUT OF BOUNDS \n FAILED TO DELETE ITEM" << endl;
     }
-    else
+    temp2->next = temp->next;
+    delete temp;
+}
+
+// ACCESSING
+
+template <typename L> //get first item
+ListNode<L>* LinkedList<L>::getHead()
+{
+    if (HEAD == NULL) 
     {
         temp2->setNext(temp->getNext());
         temp->setNext(NULL);
         delete temp;
     }
+    return HEAD;
 }
 
-// ACCESSING
+template <typename L> //get last item
+ListNode<L>* LinkedList<L>::getTail()
+{
+    if (HEAD == NULL) 
+    {
+        cout << "List is empty." << endl;
+        return;
+    }
+    ListNode<L>* temp = HEAD;
+    ListNode<L>* temp2 = HEAD;
+    temp2 = temp2->next;
 
 template <typename L>
 bool LinkedList<L>::isEmpty() { return HEAD == NULL; }
 
-// If get*() function is called assume list is not empty. In driver, call isEmpty() before get*()
+    return temp;
 
 template <typename L> //get first item
 L* LinkedList<L>::getHead() { return HEAD->getData(); }
@@ -149,6 +169,7 @@ L* LinkedList<L>::getItem(int index)
         cout << "OUT OF BOUNDS \n GETTING END INSTEAD" << endl;
     }
     return temp->getData();
+}
 }
 
 // SORTING
