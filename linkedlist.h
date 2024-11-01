@@ -52,10 +52,7 @@ class LinkedList
         L getItem(int);
 
         // SORTING
-
-        /*
-        QuickSort
-        */
+        
         ListNode<L>* partition(ListNode<L>*, ListNode<L>*, bool);
         void quicksortRUN(ListNode<L>*, ListNode<L>*, bool);
         void quickSort(bool upDown);
