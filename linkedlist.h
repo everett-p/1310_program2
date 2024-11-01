@@ -47,9 +47,10 @@ class LinkedList
 
         // ACCESSING
 
+        bool isEmpty();
         ListNode<L>* getHead();
         ListNode<L>* getTail();
-        L getItem(int);
+        ListNode<L>* getItem(int);
 
         // SORTING
 
