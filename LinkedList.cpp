@@ -19,7 +19,7 @@ LinkedList<L>::LinkedList()
 // DESTRUCTOR
 
 template <typename L>
-LinkedList<L>::~LinkedList() { delete HEAD; }
+LinkedList<L>::~LinkedList() { delete HEAD; delete TAIL; }
 
 // ADDING
 
@@ -27,59 +27,62 @@ template <typename L> // append function
 void LinkedList<L>::append(L val)
 {
     ListNode<L>* newNode = new ListNode<L>(val);
-    if (HEAD == NULL) 
+    if (isEmpty()) 
     {
         HEAD = newNode; // If the list is empty, make newNode the head
-        return;
     }
-    ListNode<L>* temp = HEAD;
-    while (temp->next) 
+    else
     {
-        temp = temp->next;
+        ListNode<L>* temp = HEAD;
+        while (temp->getNext() != NULL) 
+        {
+            temp = temp->getNext();
+        }
+        temp->setNext(newNode);
     }
-    temp->next = newNode;
-    return;
 }
 
 template <typename L> //prepend function
 void LinkedList<L>::prepend(L val)
 {
     ListNode<L>* newNode = new ListNode<L>(val);
-    if (!HEAD) 
+    if (isEmpty()) 
     {
         HEAD = newNode; // If the list is empty, make newNode the head
+    } 
+    else 
+    {
+        newNode->setNext(HEAD);
+        HEAD = newNode;
     }
-    ListNode<L>* temp = HEAD;
-    newNode->next = HEAD;
-    HEAD = newNode
-    return;
 }
 
 template <typename L> //insert function
 void LinkedList<L>::insert(L val, int index)
 {
     ListNode<L>* newNode = new ListNode<L>(val);
-    if (!HEAD) 
+    if (isEmpty())
     {
         HEAD = newNode; // If the list is empty, make newNode the head
-        return;
     }
-    ListNode<L>* temp = HEAD;
-    int test = 0;
+    else 
+    {
+        ListNode<L>* temp = HEAD;
+        int test = 0;
 
-    // Traverse to the node just before the desired index
-    while (temp != nullptr && test < index - 1) 
-    {
-        temp = temp->next;      // Move to the next node
-        test++;         // Increment the current index
+        // Traverse to the node just before the desired index
+        while (temp != NULL && test < index - 1) 
+        {
+            temp = temp->getNext();      // Move to the next node
+            test++;         // Increment the current index
+        }
+        if (temp == NULL)
+        {
+            cout << "OUT OF BOUNDS \n INSERTING AT END INSTEAD" << endl;
+        }
+        newNode->setNext(temp->getNext());
+        temp->setNext(newNode);
     }
-    if (temp == nullptr)
-    {
-        cout << "OUT OF BOUNDS \n INSERTING AT END INSTEAD" << endl;
-    }
-    newNode->next = temp->next;
-    temp->next = newNode;
-    return;
 }
 
 // SWAPPING
@@ -100,16 +103,15 @@ void LinkedList<L>::deleteItem(int index)
     int test = 0;
     ListNode<L>* temp = HEAD;
     ListNode<L>* temp2 = HEAD;
-    while (temp != nullptr && test <= index) 
+    while (temp != NULL && test <= index) 
     {
         temp2 = temp;
-        temp = temp->next;
+        temp = temp->getNext();
         test++;         
     }
-    if (temp == nullptr)
+    if (temp == NULL)
     {
         cout << "OUT OF BOUNDS \n FAILED TO DELETE ITEM" << endl;
-        return;
     }
     temp2->next = temp->next;
     delete temp;
@@ -122,8 +124,9 @@ ListNode<L>* LinkedList<L>::getHead()
 {
     if (HEAD == NULL) 
     {
-        cout << "List is empty." << endl;
-        return;
+        temp2->setNext(temp->getNext());
+        temp->setNext(NULL);
+        delete temp;
     }
     return HEAD;
 }
@@ -140,38 +143,32 @@ ListNode<L>* LinkedList<L>::getTail()
     ListNode<L>* temp2 = HEAD;
     temp2 = temp2->next;
 
-    while (temp2 != nullptr)
-    {
-        temp = temp->next;
-        temp2 = temp2->next;
-    }
+template <typename L>
+bool LinkedList<L>::isEmpty() { return HEAD == NULL; }
 
     return temp;
 
-}
+template <typename L> //get first item
+L* LinkedList<L>::getHead() { return HEAD->getData(); }
+
+template <typename L> //get last item
+L* LinkedList<L>::getTail() { return TAIL->getData(); }
 
 template <typename L> //get particular item
-L LinkedList<L>::getItem(int index)
+L* LinkedList<L>::getItem(int index)
 {
-    if (HEAD == nullptr) 
-    {
-        cout << "List is empty." << endl;
-        return;
-    }
-
     int test = 0;
     ListNode<L>* temp = HEAD;
-    while (temp != nullptr && test <= index-1) 
+    while (temp != NULL && test <= index-1) 
     {
-        temp = temp->next;
+        temp = temp->getNext();
         test++;         
     }
-    if (temp == nullptr)
+    if (temp == NULL)
     {
         cout << "OUT OF BOUNDS \n GETTING END INSTEAD" << endl;
     }
-
-    return temp->value;
+    return temp->getData();
 }
 
 // SORTING
@@ -180,13 +177,15 @@ L LinkedList<L>::getItem(int index)
 QuickSort
 */
 
+    // PRIVATE HELPERS
+
 template <typename L> //partition
 ListNode<L>* LinkedList<L>::partition(ListNode<L>* low, ListNode<L>* high, bool upDown)
 {
     L pivot = high->getData();
     ListNode<L>* i = low;
 
-    for (ListNode<L>* j = low ; j <= high ; j->iterate())
+    for (ListNode<L>* j = low ; j <= high ; j->getNext())
     {
         if ((upDown && j->getData() <= pivot) || (!upDown && j->getData() >= pivot)) 
         {
@@ -194,7 +193,7 @@ ListNode<L>* LinkedList<L>::partition(ListNode<L>* low, ListNode<L>* high, bool 
             {
                 swap(i->getData(), j->getData());
             }
-        i = i->iterate();
+        i = i->getNext();
         }
     }
     swap(i->getData(), high->getData());
@@ -204,21 +203,23 @@ ListNode<L>* LinkedList<L>::partition(ListNode<L>* low, ListNode<L>* high, bool 
 template <typename L> //quicksortRUN
 void LinkedList<L>::quicksortRUN(ListNode<L>* low, ListNode<L>* high, bool upDown)
 {
-    if (high != nullptr && low != high && low != high->iterate()) 
+    if (high != NULL && low != high && low != high->getNext()) 
     {
         ListNode<L>* X = partition(low, high, upDown); 
-        quicksortRUN(low, X->iterate(), upDown); 
-        quicksortRUN(X->iterate(), high, upDown); 
+        quicksortRUN(low, X->getNext(), upDown); 
+        quicksortRUN(X->getNext(), high, upDown); 
     }
 }
+
+    // PUBLIC SORTER
 
 template <typename L> //quicksort
 void LinkedList<L>::quickSort(bool upDown)
 {
     ListNode<L>* high = HEAD;
-    while (high && high->iterate() != nullptr) 
+    while (high && high->getNext() != NULL) 
     {
-        high = high->iterate();
+        high = high->getNext();
     }
     quicksortRUN(HEAD, high, upDown);
 }
@@ -229,12 +230,13 @@ template <typename L>
 ostream& operator<<(ostream& stream, const LinkedList<L>& list) 
 {
     ListNode<L>* temp = list.HEAD; // Start from the head
-    while (temp != nullptr)
+    if (list.isEmpty()) cout << "List is Empty." << endl;
+    while (temp != NULL)
     {
         int i = 1;
         cout << i <<":"<< endl;
         stream << temp->getData() << " "; // Output the data of each node
-        temp = temp->iterate(); // Move to the next node
+        temp = temp->getNext(); // Move to the next node
         i++;
     }
     return stream; // Return the stream
