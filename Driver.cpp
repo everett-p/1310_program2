@@ -23,13 +23,13 @@ int main()
                 print();
                 break;
             case 2:
-                addItem();
+                addItem(list);
                 break;
             case 3:
-                editItem();
+                editItem(list);
                 break;
             case 4:
-                deleteItem();
+                deleteItem(list);
                 break;
         }
     }while(menuChoice != 5);
@@ -76,8 +76,6 @@ void addItem(LinkedList<L> val)
         case 4:
             return;
             break;
-        
-
     }
 
 };
@@ -85,15 +83,48 @@ void addItem(LinkedList<L> val)
 template<typename L>
 void editItem(LinkedList<L> val)
 {
-    cout << endl;
+    int  ID, weight, quantity;
+    string name;
+    float price;
+    ListNode<L>* currentItem = LinkedList<L>::getHead();
+    while (currentItem != LinkedList<L>::getTail())
+    {
+        if(currentItem.getID() == val.getID())
+        {
+            cout << "Enter new item details.\n1. Item Name: ";
+            cin >> name;
+            currentItem.setName(name);
+            cout << "2. Item ID: ";
+            cin >> ID;
+            currentItem.setID(ID);
+            cout << "3. Item Price: ";
+            cin >> price;
+            currentItem.setPrice(price);
+            cout << "3. Item Weight: ";
+            cin >> weight;
+            currentItem.setWeight(weight);
+            cout << "5. Item Quantity: ";
+            cin >> quantity;
+            currentItem.setQuantity(quantity);
+            cout << "6. Unit Price: ";
+            currentItem.setUnitPrice();
+        }
+        else
+            currentItem->next;
+    }
 };
 
-void deleteItem()
+template<typename L>
+void deleteItem(LinkedList<L> val)
 {
-
+    int itemNum;
+    cout << "Which item would you like to delete? ";
+    cin >> itemNum;
+    LinkedList<L>::deleteItem(itemNum);
 };
 
-void iterate()
+template<typename L>
+void iterate(LinkedList<InvItem> val)
 {
     int choice;
     cout << "Which Direction Would You Like to Iterate?\n1. Previous Item\n2. Next Item";
@@ -103,14 +134,25 @@ void iterate()
         cout << "Please Enter Either 1 or 2. ";
         cin >> choice;
     }
+    ListNode<L>* iteratorPtr = LinkedList<L>::getHead();
+    ListNode<L>* tempPtr = iteratorPtr;
 
+    while(iteratorPtr != val)
+    {
+        tempPtr = iteratorPtr;
+        iteratorPtr->next;
+    }
+    if(choice == 1)
+        iteratorPtr = tempPtr;
+    else
+        iteratorPtr->next;
 };
 
 template<typename L>
 void print()
 {
     ListNode<L>* nodePtr = LinkedList<L>::getHead();
-    while(nodePtr != NULL)
+    while(&nodePtr != NULL)
     {
         cout << "Item Name:\t" << LinkedList<L>::getName() << endl;
         cout << "Item ID:\t" << LinkedList<L>::getID() << endl;
