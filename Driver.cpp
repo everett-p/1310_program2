@@ -5,10 +5,10 @@
 using namespace std;
 
 int printMenu();
-void addItem();
-void editItem();
-void deleteItem();
-void iterate();
+void addItem(LinkedList<InvItem>);
+void editItem(LinkedList<InvItem>);
+void deleteItem(LinkedList<InvItem>);
+void iterate(LinkedList<InvItem>);
 void print();
 
 int main()
@@ -86,8 +86,8 @@ void editItem(LinkedList<L> val)
     int  ID, weight, quantity;
     string name;
     float price;
-    ListNode<L>* currentItem = LinkedList<L>::getHead();
-    while (currentItem != LinkedList<L>::getTail())
+    ListNode<L>* currentItem = LinkedList<InvItem>::getHead();
+    while (currentItem != LinkedList<InvItem>::getTail())
     {
         if(currentItem.getID() == val.getID())
         {
