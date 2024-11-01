@@ -5,11 +5,11 @@
 using namespace std;
 
 int printMenu();
-void addItem(LinkedList<InvItem>);
-void editItem(LinkedList<InvItem>);
-void deleteItem(LinkedList<InvItem>);
-void iterate(LinkedList<InvItem>);
-void print();
+void addItem(LinkedList<InvItem>*);
+void editItem(LinkedList<InvItem>*);
+void deleteItem(LinkedList<InvItem>*);
+void iterate(LinkedList<InvItem>*);
+void print(LinkedList<InvItem>*);
 
 int main()
 {
@@ -20,7 +20,7 @@ int main()
         switch(menuChoice)
         {
             case 1:
-                print();
+                cout << list;
                 break;
             case 2:
                 addItem(list);
@@ -81,15 +81,16 @@ void addItem(LinkedList<L> val)
 };
 
 template<typename L>
-void editItem(LinkedList<L> val)
+void editItem(LinkedList<L> list)
 {
     int  ID, weight, quantity;
     string name;
     float price;
-    ListNode<L>* currentItem = LinkedList<InvItem>::getHead();
-    while (currentItem != LinkedList<InvItem>::getTail())
+    ListNode<L>* currentItem;
+    currentItem = list.getHead();
+    while (currentItem != list.getTail())
     {
-        if(currentItem.getID() == val.getID())
+        if(currentItem.getID() == list.getID())
         {
             cout << "Enter new item details.\n1. Item Name: ";
             cin >> name;
@@ -114,17 +115,17 @@ void editItem(LinkedList<L> val)
     }
 };
 
-template<typename L>
-void deleteItem(LinkedList<L> val)
+
+void deleteItem(LinkedList<InvItem>* list)
 {
     int itemNum;
     cout << "Which item would you like to delete? ";
     cin >> itemNum;
-    LinkedList<L>::deleteItem(itemNum);
+    list.deleteItem(itemNum);
 };
 
-template<typename L>
-void iterate(LinkedList<InvItem> val)
+
+void iterate(LinkedList<InvItem> list)
 {
     int choice;
     cout << "Which Direction Would You Like to Iterate?\n1. Previous Item\n2. Next Item";
@@ -134,10 +135,10 @@ void iterate(LinkedList<InvItem> val)
         cout << "Please Enter Either 1 or 2. ";
         cin >> choice;
     }
-    ListNode<L>* iteratorPtr = LinkedList<L>::getHead();
-    ListNode<L>* tempPtr = iteratorPtr;
+    ListNode<InvItem>* iteratorPtr = list.getHead();
+    ListNode<InvItem>* tempPtr = iteratorPtr;
 
-    while(iteratorPtr != val)
+    while(iteratorPtr != list)
     {
         tempPtr = iteratorPtr;
         iteratorPtr->next;
@@ -148,19 +149,3 @@ void iterate(LinkedList<InvItem> val)
         iteratorPtr->next;
 };
 
-template<typename L>
-void print()
-{
-    ListNode<L>* nodePtr = LinkedList<L>::getHead();
-    while(&nodePtr != NULL)
-    {
-        cout << "Item Name:\t" << LinkedList<L>::getName() << endl;
-        cout << "Item ID:\t" << LinkedList<L>::getID() << endl;
-        cout << "Item Price:\t$" << LinkedList<L>::getPrice() << endl;
-        cout << "Item weight:\t" << LinkedList<L>::getWeight() << "oz." << endl;
-        cout << "Item Unit Price:\t$" << LinkedList<L>::getUnitPrice() << endl;
-        cout << "Item Quantity:\t" << LinkedList<L>::getQuantity() << endl;
-        nodePtr = nodePtr->next;
-    }
-
-};
