@@ -118,18 +118,18 @@ void LinkedList<L>::deleteItem(int index)
 // ACCESSING
 
 template <typename L> //get first item
-L LinkedList<L>::getHead()
+ListNode<L>* LinkedList<L>::getHead()
 {
     if (HEAD == NULL) 
     {
         cout << "List is empty." << endl;
         return;
     }
-    return HEAD->value;
+    return HEAD;
 }
 
 template <typename L> //get last item
-L LinkedList<L>::getTail()
+ListNode<L>* LinkedList<L>::getTail()
 {
     if (HEAD == NULL) 
     {
@@ -146,7 +146,7 @@ L LinkedList<L>::getTail()
         temp2 = temp2->next;
     }
 
-    return temp->value;
+    return temp;
 
 }
 
