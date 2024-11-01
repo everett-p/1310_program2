@@ -15,7 +15,7 @@ template <typename L> ListNode<L>::~ListNode() { delete this->next; } // chains 
 
 // GETTERS
 
-template <typename L> L ListNode<L>::getData() { return this->value; }
+template <typename L> L* ListNode<L>::getData() { return this->value; }
 template <typename L> ListNode<L>* ListNode<L>::getNext() { return this->next; }
 
 // SETTERS
