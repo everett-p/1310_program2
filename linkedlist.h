@@ -9,7 +9,7 @@
 #define LINKEDLIST_H
 
 #include <iostream>
-#include "ListNode.h"
+#include "node.h"
 
 using namespace std;
 
@@ -20,11 +20,6 @@ class LinkedList
     
         ListNode<L>* HEAD;
         ListNode<L>* TAIL;
-
-        // QUICKSORT HELPERS
-
-        ListNode<L>* partition(ListNode<L>*, ListNode<L>*, bool);
-        void quicksortRUN(ListNode<L>*, ListNode<L>*, bool);
 
     public:
 
@@ -52,18 +47,22 @@ class LinkedList
 
         // ACCESSING
 
-        bool isEmpty();
-        L* getHead();
-        L* getTail();
-        L* getItem(int);
+        ListNode<L>* getHead();
+        ListNode<L>* getTail();
+        L getItem(int);
 
         // SORTING
-        
+
+        /*
+        QuickSort
+        */
+        ListNode<L>* partition(ListNode<L>*, ListNode<L>*, bool);
+        void quicksortRUN(ListNode<L>*, ListNode<L>*, bool);
         void quickSort(bool upDown);
 
         // OPERATOR OVERLOADING
 
-        friend ostream& operator<<(ostream& stream, const LinkedList<L>& list);
+        friend ostream& operator<<(ostream& stream, const List<L>& list);
 
 
 
