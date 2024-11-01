@@ -53,7 +53,7 @@ void LinkedList<L>::prepend(L val)
     else 
     {
         newNode->setNext(HEAD);
-        HEAD = newNode
+        HEAD = newNode;
     }
 }
 
@@ -129,14 +129,13 @@ bool LinkedList<L>::isEmpty() { return HEAD == NULL; }
 // If get*() function is called assume list is not empty. In driver, call isEmpty() before get*()
 
 template <typename L> //get first item
-L LinkedList<L>::getHead() { return HEAD->getData(); }
+L* LinkedList<L>::getHead() { return HEAD->getData(); }
 
 template <typename L> //get last item
-L LinkedList<L>::getTail()
-{ return TAIL->getData(); }
+L* LinkedList<L>::getTail() { return TAIL->getData(); }
 
 template <typename L> //get particular item
-L LinkedList<L>::getItem(int index)
+L* LinkedList<L>::getItem(int index)
 {
     int test = 0;
     ListNode<L>* temp = HEAD;
@@ -158,13 +157,15 @@ L LinkedList<L>::getItem(int index)
 QuickSort
 */
 
+    // PRIVATE HELPERS
+
 template <typename L> //partition
 ListNode<L>* LinkedList<L>::partition(ListNode<L>* low, ListNode<L>* high, bool upDown)
 {
     L pivot = high->getData();
     ListNode<L>* i = low;
 
-    for (ListNode<L>* j = low ; j <= high ; j->iterate())
+    for (ListNode<L>* j = low ; j <= high ; j->getNext())
     {
         if ((upDown && j->getData() <= pivot) || (!upDown && j->getData() >= pivot)) 
         {
@@ -172,7 +173,7 @@ ListNode<L>* LinkedList<L>::partition(ListNode<L>* low, ListNode<L>* high, bool 
             {
                 swap(i->getData(), j->getData());
             }
-        i = i->iterate();
+        i = i->getNext();
         }
     }
     swap(i->getData(), high->getData());
@@ -182,21 +183,23 @@ ListNode<L>* LinkedList<L>::partition(ListNode<L>* low, ListNode<L>* high, bool 
 template <typename L> //quicksortRUN
 void LinkedList<L>::quicksortRUN(ListNode<L>* low, ListNode<L>* high, bool upDown)
 {
-    if (high != nullptr && low != high && low != high->iterate()) 
+    if (high != NULL && low != high && low != high->getNext()) 
     {
         ListNode<L>* X = partition(low, high, upDown); 
-        quicksortRUN(low, X->iterate(), upDown); 
-        quicksortRUN(X->iterate(), high, upDown); 
+        quicksortRUN(low, X->getNext(), upDown); 
+        quicksortRUN(X->getNext(), high, upDown); 
     }
 }
+
+    // PUBLIC SORTER
 
 template <typename L> //quicksort
 void LinkedList<L>::quickSort(bool upDown)
 {
     ListNode<L>* high = HEAD;
-    while (high && high->iterate() != nullptr) 
+    while (high && high->getNext() != NULL) 
     {
-        high = high->iterate();
+        high = high->getNext();
     }
     quicksortRUN(HEAD, high, upDown);
 }
@@ -207,12 +210,13 @@ template <typename L>
 ostream& operator<<(ostream& stream, const LinkedList<L>& list) 
 {
     ListNode<L>* temp = list.HEAD; // Start from the head
+    if (list.isEmpty()) cout << "List is Empty." << endl;
     while (temp != NULL)
     {
         int i = 1;
         cout << i <<":"<< endl;
         stream << temp->getData() << " "; // Output the data of each node
-        temp = temp->iterate(); // Move to the next node
+        temp = temp->getNext(); // Move to the next node
         i++;
     }
     return stream; // Return the stream
