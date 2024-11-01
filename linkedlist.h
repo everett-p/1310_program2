@@ -47,6 +47,7 @@ class LinkedList
 
         // ACCESSING
 
+        bool isEmpty();
         L getHead();
         L getTail();
         L getItem(int);

@@ -27,7 +27,7 @@ template <typename L> // append function
 void LinkedList<L>::append(L val)
 {
     ListNode<L>* newNode = new ListNode<L>(val);
-    if (HEAD == NULL) 
+    if (isEmpty()) 
     {
         HEAD = newNode; // If the list is empty, make newNode the head
     }
@@ -46,7 +46,7 @@ template <typename L> //prepend function
 void LinkedList<L>::prepend(L val)
 {
     ListNode<L>* newNode = new ListNode<L>(val);
-    if (HEAD == NULL) 
+    if (isEmpty()) 
     {
         HEAD = newNode; // If the list is empty, make newNode the head
     } 
@@ -61,7 +61,7 @@ template <typename L> //insert function
 void LinkedList<L>::insert(L val, int index)
 {
     ListNode<L>* newNode = new ListNode<L>(val);
-    if (HEAD == NULL) 
+    if (isEmpty())
     {
         HEAD = newNode; // If the list is empty, make newNode the head
     }
@@ -123,38 +123,21 @@ void LinkedList<L>::deleteItem(int index)
 
 // ACCESSING
 
+template <typename L>
+bool LinkedList<L>::isEmpty() { return HEAD == NULL; }
+
+// If get*() function is called assume list is not empty. In driver, call isEmpty() before get*()
+
 template <typename L> //get first item
-L LinkedList<L>::getHead()
-{
-    if (HEAD == NULL) 
-    {
-        cout << "List is empty." << endl;
-        return NULL;
-    }
-    return HEAD->getData();
-}
+L LinkedList<L>::getHead() { return HEAD->getData(); }
 
 template <typename L> //get last item
 L LinkedList<L>::getTail()
-{
-    if (TAIL == NULL) 
-    {
-        cout << "List is empty." << endl;
-        return NULL;
-    }
-    return TAIL->getData();
-
-}
+{ return TAIL->getData(); }
 
 template <typename L> //get particular item
 L LinkedList<L>::getItem(int index)
 {
-    if (HEAD == NULL) 
-    {
-        cout << "List is empty." << endl;
-        return NULL;
-    }
-
     int test = 0;
     ListNode<L>* temp = HEAD;
     while (temp != NULL && test <= index-1) 
@@ -166,7 +149,6 @@ L LinkedList<L>::getItem(int index)
     {
         cout << "OUT OF BOUNDS \n GETTING END INSTEAD" << endl;
     }
-
     return temp->getData();
 }
 
