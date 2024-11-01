@@ -170,6 +170,7 @@ L* LinkedList<L>::getItem(int index)
     }
     return temp->getData();
 }
+}
 
 // SORTING
 
