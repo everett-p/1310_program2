@@ -6,15 +6,16 @@ using namespace std;
 
 int printMenu();
 template <typename L> void addItem(LinkedList<L>*);
-template <typename L>void editItem(LinkedList<L>*);
-template <typename L>void deleteItems(LinkedList<L>*);
-template <typename L>void iterate(LinkedList<L>*);
+template <typename L> void editItem(LinkedList<L>*);
+template <typename L> void deleteItems(LinkedList<L>*);
+template <typename L> void iterate(LinkedList<L>*);
 
 int main()
 {
     LinkedList<InvItem>* list;
-    int menuChoice = printMenu();
+    int menuChoice;
     do{
+        menuChoice = printMenu();
         switch(menuChoice)
         {
             case 1:
@@ -53,23 +54,45 @@ template<typename L>
 void addItem(LinkedList<L>* list)
 {
     int b = 0;
-    cout << "Where would you like to add an Item?\n";
+    string name;
+    float price;
+    int weight, quantity, id;
+    InvItem* newItem;
+
+
+    cout << "Where would you like to add the Item?\n";
     cout << "\t1) Add at the front \n\t2) Add at the end \n\t3) Add in a particlular place \n\t4) Go back";
     cin >> b;
+
+    if (b != 4) {
+        cout << "\nWhat's the name of the Item?\nNAME: ";
+        cin.ignore();
+        getline(cin, name);
+        cout << "\nHow much is the item?\nPRICE: $";
+        cin >> price;
+        cout << "\nHow much does the item weigh?\nWEIGHT oz.: ";
+        cin >> weight;
+        cout << "\nHow many are in stock?\nQUANTITY: ";
+        cin >> quantity;
+        cout << "\nWhat's the items Bin ID?\nID: ";
+        cin >> id;
+
+        newItem = new InvItem(name, price, weight, quantity, id);
+    }
 
     switch (b)
     {
         case 1:
-            list->prepend(list);
+            list->prepend(newItem);
             break;
         case 2:
-            list->append(list);
+            list->append(newItem);
             break;
         case 3:
             int z;
-            cout << "Where would you like to add the item? ";
+            cout << "Where would you like to add the item? (0 - " << list->getCounter() << ")" << endl;
             cin >> z;
-            list->insert(list, z);
+            list->insert(newItem, z);
             break;
         case 4:
             return;
@@ -81,36 +104,65 @@ void addItem(LinkedList<L>* list)
 template<typename L>
 void editItem(LinkedList<L>* list)
 {
-    int  ID, weight, quantity;
-    string name;
-    float price;
-    ListNode<L>* currentItem;
-    currentItem = list->getHead();
-    while (currentItem != list->getTail())
-    {
-        if(currentItem->getID() == list->getID())
-        {
-            cout << "Enter new item details.\n1. Item Name: ";
-            cin >> name;
-            currentItem->getData()->setName(name);
-            cout << "2. Item ID: ";
-            cin >> ID;
-            currentItem->getData()->setID(ID);
-            cout << "3. Item Price: ";
-            cin >> price;
-            currentItem->getData()->setPrice(price);
-            cout << "3. Item Weight: ";
-            cin >> weight;
-            currentItem->getData()->setWeight(weight);
-            cout << "5. Item Quantity: ";
-            cin >> quantity;
-            currentItem->getData()->setQuantity(quantity);
-            cout << "6. Unit Price: ";
-            currentItem->getData()->setUnitPrice();
-        }
-        else
-            currentItem->getNext();
+    string n;
+    float p;
+    int w, q, id;
+    int choice;
+    InvItem* edit;
+
+    cout << "Which Item would you like to modify?" << endl;
+    for (int i = 0; i < list->getCounter(); i++) {
+        cout << i << ". " <<list->getItem(i)->getData()->getName() << endl;
     }
+    do {
+        cout << "CHOICE ";
+        cin >> choice;
+    } while (choice < 1 || choice >= list->getCounter());
+    edit = list->getItem(choice)->getData();
+
+    while (choice != 6) {
+        cout << "NOW EDITING: " << edit->getName();
+        cout << "CURRENT:" << endl;
+        cout << edit << endl;
+        cout << "What would you like to chance?" << endl;
+        cout << "1. Name\n2. Price\n3. Weight\n4. Quantity\n5. ID\n6. Exit" << endl;
+        do {
+            cout << "CHOICE: ";
+            cin >> choice;
+        } while (choice < 1 || choice > 6);
+
+        switch (choice) {
+            case 1:
+                cout << "What's the new Name?\nNAME: ";
+                cin.ignore();
+                getline(cin, n);
+                edit->setName(n);
+                break;
+            case 2:
+                cout << "What's the new Price?\nPRICE: ";
+                cin >> p;
+                edit->setPrice(p);
+                break;
+            case 3:
+                cout << "What's the new Weight?\nWEIGHT: ";
+                cin >> w;
+                edit->setWeight(w);
+                break;
+            case 4:
+                cout << "What's the new Quantity?\nQUANTITY: ";
+                cin >> q;
+                edit->setQuantity(q);
+                break;
+            case 5:
+                cout << "What's the new Bin ID?\nID: ";
+                cin >> id;
+                edit->setID(id);
+                break;
+            default:
+                break;
+        }
+    }
+
 };
 
 template <typename L>
