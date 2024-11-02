@@ -6,6 +6,7 @@
 */
 
 #include "LinkedList.h"
+#include "InvItem.h"
 
 // CONSTRUCTOR
 
@@ -88,11 +89,12 @@ void LinkedList<L>::insert(L val, int index)
 // SWAPPING
 
 template <typename L>
-void LinkedList<L>::swap(L& a, L& b) 
-{
-    L temp = a; 
-    a = b;      
-    b = temp;  
+void LinkedList<L>::swap(ListNode<L>* a, ListNode<L>* b) {
+    if (a && b) {
+        L temp = a->getData();
+        a->setData(b->getData());
+        b->setData(temp);
+    }
 }
 
 // REMOVING
@@ -113,7 +115,7 @@ void LinkedList<L>::deleteItem(int index)
     {
         cout << "OUT OF BOUNDS \n FAILED TO DELETE ITEM" << endl;
     }
-    temp2->next = temp->next;
+    temp2->setNext(temp->getNext());
     delete temp;
 }
 
@@ -124,6 +126,7 @@ ListNode<L>* LinkedList<L>::getHead()
 {
     ListNode<L>* temp = HEAD;
     ListNode<L>* temp2 = HEAD;
+    temp2->setNext(temp2->getNext());;
     if (HEAD == NULL) 
     {
         temp2->setNext(temp->getNext());
@@ -139,40 +142,37 @@ ListNode<L>* LinkedList<L>::getTail()
     if (HEAD == NULL) 
     {
         cout << "List is empty." << endl;
-        return;
+        return nullptr;
     }
-    ListNode<L>* temp = HEAD;
-    ListNode<L>* temp2 = HEAD;
-    temp2 = temp2->next;
+    return TAIL;
+}
 
 template <typename L>
 bool LinkedList<L>::isEmpty() { return HEAD == NULL; }
 
-    return temp;
+//template <typename L> //get first item
+//ListNode<L>* LinkedList<L>::getHead() { return HEAD->getData(); }
 
-template <typename L> //get first item
-L* LinkedList<L>::getHead() { return HEAD->getData(); }
-
-template <typename L> //get last item
-L* LinkedList<L>::getTail() { return TAIL->getData(); }
+//template <typename L> //get last item
+//ListNode<L>* LinkedList<L>::getTail() { return TAIL->getData(); }
 
 template <typename L> //get particular item
-L* LinkedList<L>::getItem(int index)
+ListNode<L>* LinkedList<L>::getItem(int index)
 {
     int test = 0;
     ListNode<L>* temp = HEAD;
     while (temp != NULL && test <= index-1) 
     {
-        temp = temp->getNext();
+        temp->setNext(temp->getNext());;
         test++;         
     }
     if (temp == NULL)
     {
         cout << "OUT OF BOUNDS \n GETTING END INSTEAD" << endl;
     }
-    return temp->getData();
+    return temp;
 }
-}
+
 
 // SORTING
 
@@ -244,3 +244,10 @@ ostream& operator<<(ostream& stream, const LinkedList<L>& list)
     }
     return stream; // Return the stream
 }
+template class LinkedList<InvItem>;
+template ListNode<InvItem>* LinkedList<InvItem>::getHead(); 
+template ListNode<InvItem>* LinkedList<InvItem>::getTail(); 
+template ListNode<InvItem>* LinkedList<InvItem>::getItem(int);
+template void LinkedList<InvItem>::append(InvItem);
+template void LinkedList<InvItem>::prepend(InvItem);
+
