@@ -12,7 +12,7 @@ template <typename L>
 class ListNode
 {
     private: 
-        L value;
+        L* value;
         ListNode<L> *next;
     public:
 
@@ -22,7 +22,7 @@ class ListNode
 
         // GETTERS
 
-        L getData();
+        L* getData();
         ListNode<L>* getNext();
 
         // SETTERS

@@ -5,16 +5,14 @@
 using namespace std;
 
 int printMenu();
-void addItem(LinkedList<InvItem>*);
-void editItem(LinkedList<InvItem>*);
-void deleteItem(LinkedList<InvItem>*);
-void iterate(LinkedList<InvItem>*);
-void print(LinkedList<InvItem>*);
+template <typename L> void addItem(LinkedList<L>*);
+template <typename L>void editItem(LinkedList<L>*);
+template <typename L>void deleteItems(LinkedList<L>*);
+template <typename L>void iterate(LinkedList<L>*);
 
 int main()
 {
-    LinkedList<InvItem> list;
-    ListNode<InvItem> listPointer = list.getHead();
+    LinkedList<InvItem>* list;
     int menuChoice = printMenu();
     do{
         switch(menuChoice)
@@ -29,7 +27,7 @@ int main()
                 editItem(list);
                 break;
             case 4:
-                deleteItem(list);
+                deleteItems(list);
                 break;
         }
     }while(menuChoice != 5);
@@ -52,7 +50,7 @@ int printMenu()
 };
 
 template<typename L>
-void addItem(LinkedList<L> val)
+void addItem(LinkedList<L>* list)
 {
     int b = 0;
     cout << "Where would you like to add an Item?\n";
@@ -62,16 +60,16 @@ void addItem(LinkedList<L> val)
     switch (b)
     {
         case 1:
-            LinkedList<L>::prepend(val);
+            list->prepend(list);
             break;
         case 2:
-            LinkedList<L>::append(val);
+            list->append(list);
             break;
         case 3:
             int z;
             cout << "Where would you like to add the item? ";
             cin >> z;
-            LinkedList<L>::insert(val, z);
+            list->insert(list, z);
             break;
         case 4:
             return;
@@ -81,51 +79,51 @@ void addItem(LinkedList<L> val)
 };
 
 template<typename L>
-void editItem(LinkedList<L> list)
+void editItem(LinkedList<L>* list)
 {
     int  ID, weight, quantity;
     string name;
     float price;
     ListNode<L>* currentItem;
-    currentItem = list.getHead();
-    while (currentItem != list.getTail())
+    currentItem = list->getHead();
+    while (currentItem != list->getTail())
     {
-        if(currentItem.getID() == list.getID())
+        if(currentItem->getID() == list->getID())
         {
             cout << "Enter new item details.\n1. Item Name: ";
             cin >> name;
-            currentItem.setName(name);
+            currentItem->getData()->setName(name);
             cout << "2. Item ID: ";
             cin >> ID;
-            currentItem.setID(ID);
+            currentItem->getData()->setID(ID);
             cout << "3. Item Price: ";
             cin >> price;
-            currentItem.setPrice(price);
+            currentItem->getData()->setPrice(price);
             cout << "3. Item Weight: ";
             cin >> weight;
-            currentItem.setWeight(weight);
+            currentItem->getData()->setWeight(weight);
             cout << "5. Item Quantity: ";
             cin >> quantity;
-            currentItem.setQuantity(quantity);
+            currentItem->getData()->setQuantity(quantity);
             cout << "6. Unit Price: ";
-            currentItem.setUnitPrice();
+            currentItem->getData()->setUnitPrice();
         }
         else
-            currentItem->next;
+            currentItem->getNext();
     }
 };
 
-
-void deleteItem(LinkedList<InvItem>* list)
+template <typename L>
+void deleteItems(LinkedList<L>* list)
 {
     int itemNum;
     cout << "Which item would you like to delete? ";
     cin >> itemNum;
-    list.deleteItem(itemNum);
+    list->deleteItem(itemNum);
 };
 
-
-void iterate(LinkedList<InvItem> list)
+template <typename L>
+void iterate(LinkedList<L>* list)
 {
     int choice;
     cout << "Which Direction Would You Like to Iterate?\n1. Previous Item\n2. Next Item";
@@ -135,17 +133,17 @@ void iterate(LinkedList<InvItem> list)
         cout << "Please Enter Either 1 or 2. ";
         cin >> choice;
     }
-    ListNode<InvItem>* iteratorPtr = list.getHead();
-    ListNode<InvItem>* tempPtr = iteratorPtr;
+    ListNode<L>* iteratorPtr = list->getHead();
+    ListNode<L>* tempPtr = iteratorPtr;
 
     while(iteratorPtr != list)
     {
         tempPtr = iteratorPtr;
-        iteratorPtr->next;
+        iteratorPtr->getNext();
     }
     if(choice == 1)
         iteratorPtr = tempPtr;
     else
-        iteratorPtr->next;
+        iteratorPtr->getNext();
 };
 
