@@ -10,7 +10,7 @@
 // CONSTRUCTOR / DESTRUCTOR
 
 template <typename L>
-ListNode<L>::ListNode(L val) { this->value = val; } 
+ListNode<L>::ListNode(L* val) { this->value = val; } 
 template <typename L> ListNode<L>::~ListNode() { delete this->next; } // chains deletes for easy clean-up; REMOVE FROM LIST BEFORE DELETE IF NOT CLEARING LIST
 
 // GETTERS

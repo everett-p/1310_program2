@@ -40,9 +40,9 @@ class LinkedList
 
         // ADDING
 
-        void append(L);
-        void prepend(L);
-        void insert(L, int);
+        void append(L*);
+        void prepend(L*);
+        void insert(L*, int);
 
         // SWAPPING
 

@@ -17,7 +17,7 @@ class ListNode
     public:
 
         // CONSTRUCTOR / DESTRUCTOR
-        ListNode(L);
+        ListNode(L*);
         ~ListNode();
 
         // GETTERS

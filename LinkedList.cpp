@@ -26,7 +26,7 @@ LinkedList<L>::~LinkedList() { delete HEAD; delete TAIL; }
 // ADDING
 
 template <typename L> // append function
-void LinkedList<L>::append(L val)
+void LinkedList<L>::append(L* val)
 {
     ListNode<L>* newNode = new ListNode<L>(val);
     if (isEmpty()) 
@@ -46,7 +46,7 @@ void LinkedList<L>::append(L val)
 }
 
 template <typename L> //prepend function
-void LinkedList<L>::prepend(L val)
+void LinkedList<L>::prepend(L* val)
 {
     ListNode<L>* newNode = new ListNode<L>(val);
     if (isEmpty()) 
@@ -62,7 +62,7 @@ void LinkedList<L>::prepend(L val)
 }
 
 template <typename L> //insert function
-void LinkedList<L>::insert(L val, int index)
+void LinkedList<L>::insert(L* val, int index)
 {
     ListNode<L>* newNode = new ListNode<L>(val);
     if (isEmpty())
@@ -124,31 +124,6 @@ void LinkedList<L>::deleteItem(int index)
 }
 
 // ACCESSING
-
-template <typename L> //get first item
-ListNode<L>* LinkedList<L>::getHead()
-{
-    if (HEAD == NULL) 
-    {
-        temp2->setNext(temp->getNext());
-        temp->setNext(NULL);
-        delete temp;
-    }
-    return HEAD;
-}
-
-template <typename L> //get last item
-ListNode<L>* LinkedList<L>::getTail()
-{
-    if (HEAD == NULL) 
-    {
-        cout << "List is empty." << endl;
-        return;
-    }
-    ListNode<L>* temp = HEAD;
-    ListNode<L>* temp2 = HEAD;
-    temp2 = temp2->next;
-}
 
 template <typename L>
 bool LinkedList<L>::isEmpty() { return HEAD == NULL; }
