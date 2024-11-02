@@ -10,12 +10,12 @@
 // CONSTRUCTOR / DESTRUCTOR
 
 template <typename L>
-ListNode<L>::ListNode(L val) { this->value = val; } 
+ListNode<L>::ListNode(L* val) { this->value = val; } 
 template <typename L> ListNode<L>::~ListNode() { delete this->next; } // chains deletes for easy clean-up; REMOVE FROM LIST BEFORE DELETE IF NOT CLEARING LIST
 
 // GETTERS
 
-template <typename L> L ListNode<L>::getData() { return this->value; }
+template <typename L> L* ListNode<L>::getData() { return this->value; }
 template <typename L> ListNode<L>* ListNode<L>::getNext() { return this->next; }
 
 // SETTERS

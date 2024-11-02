@@ -14,6 +14,8 @@ LinkedList<L>::LinkedList()
 {
     this->HEAD = NULL;
     this->TAIL = NULL;
+
+    this->counter = 0;
 }
 
 // DESTRUCTOR
@@ -24,7 +26,7 @@ LinkedList<L>::~LinkedList() { delete HEAD; delete TAIL; }
 // ADDING
 
 template <typename L> // append function
-void LinkedList<L>::append(L val)
+void LinkedList<L>::append(L* val)
 {
     ListNode<L>* newNode = new ListNode<L>(val);
     if (isEmpty()) 
@@ -40,10 +42,11 @@ void LinkedList<L>::append(L val)
         }
         temp->setNext(newNode);
     }
+    counter++;
 }
 
 template <typename L> //prepend function
-void LinkedList<L>::prepend(L val)
+void LinkedList<L>::prepend(L* val)
 {
     ListNode<L>* newNode = new ListNode<L>(val);
     if (isEmpty()) 
@@ -55,10 +58,11 @@ void LinkedList<L>::prepend(L val)
         newNode->setNext(HEAD);
         HEAD = newNode;
     }
+    counter++;
 }
 
 template <typename L> //insert function
-void LinkedList<L>::insert(L val, int index)
+void LinkedList<L>::insert(L* val, int index)
 {
     ListNode<L>* newNode = new ListNode<L>(val);
     if (isEmpty())
@@ -83,6 +87,7 @@ void LinkedList<L>::insert(L val, int index)
         newNode->setNext(temp->getNext());
         temp->setNext(newNode);
     }
+    counter++;
 }
 
 // SWAPPING
@@ -115,47 +120,22 @@ void LinkedList<L>::deleteItem(int index)
     }
     temp2->next = temp->next;
     delete temp;
+    counter--;
 }
 
 // ACCESSING
 
-template <typename L> //get first item
-ListNode<L>* LinkedList<L>::getHead()
-{
-    if (HEAD == NULL) 
-    {
-        temp2->setNext(temp->getNext());
-        temp->setNext(NULL);
-        delete temp;
-    }
-    return HEAD;
-}
-
-template <typename L> //get last item
-ListNode<L>* LinkedList<L>::getTail()
-{
-    if (HEAD == NULL) 
-    {
-        cout << "List is empty." << endl;
-        return;
-    }
-    ListNode<L>* temp = HEAD;
-    ListNode<L>* temp2 = HEAD;
-    temp2 = temp2->next;
-
 template <typename L>
 bool LinkedList<L>::isEmpty() { return HEAD == NULL; }
 
-    return temp;
-
 template <typename L> //get first item
-L* LinkedList<L>::getHead() { return HEAD->getData(); }
+ListNode<L>* LinkedList<L>::getHead() { return HEAD; }
 
 template <typename L> //get last item
-L* LinkedList<L>::getTail() { return TAIL->getData(); }
+ListNode<L>* LinkedList<L>::getTail() { return TAIL; }
 
 template <typename L> //get particular item
-L* LinkedList<L>::getItem(int index)
+ListNode<L>* LinkedList<L>::getItem(int index)
 {
     int test = 0;
     ListNode<L>* temp = HEAD;
@@ -168,8 +148,7 @@ L* LinkedList<L>::getItem(int index)
     {
         cout << "OUT OF BOUNDS \n GETTING END INSTEAD" << endl;
     }
-    return temp->getData();
-}
+    return temp;
 }
 
 // SORTING

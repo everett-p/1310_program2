@@ -21,6 +21,8 @@ class LinkedList
         ListNode<L>* HEAD;
         ListNode<L>* TAIL;
 
+        int counter;
+
         // QUICKSORT HELPERS
 
         ListNode<L>* partition(ListNode<L>*, ListNode<L>*, bool);
@@ -38,9 +40,9 @@ class LinkedList
 
         // ADDING
 
-        void append(L);
-        void prepend(L);
-        void insert(L, int);
+        void append(L*);
+        void prepend(L*);
+        void insert(L*, int);
 
         // SWAPPING
 
@@ -56,6 +58,7 @@ class LinkedList
         ListNode<L>* getHead();
         ListNode<L>* getTail();
         ListNode<L>* getItem(int);
+        int getCounter();
 
         // SORTING
         
