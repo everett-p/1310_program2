@@ -4,31 +4,25 @@
 *   File: ListNode.h
 *   Purpose: Header file for listNode class for CSC 1310 105 Program 2
 */
-
 #ifndef LISTNODE_H
 #define LISTNODE_H
 
-template <typename L>
-class ListNode
-{
-    private: 
-        L* value;
-        ListNode<L> *next;
-    public:
+using namespace std;
 
-        // CONSTRUCTOR / DESTRUCTOR
-        ListNode(L*);
+template <typename T>
+class ListNode {
+    private:
+        T* value;
+        ListNode<T>* next;
+    public:
+        ListNode(T*);
         ~ListNode();
 
-        // GETTERS
+        T* getValue();
+        ListNode<T>* getNext();
 
-        L* getData();
-        ListNode<L>* getNext();
-
-        // SETTERS
-
-        void setData(L val);
-        void setNext(ListNode<L>* newNode);
+        void setValue(T*);
+        void setNext(ListNode<T>*);
 };
 
 #endif

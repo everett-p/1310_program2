@@ -4,220 +4,176 @@
 *   File: LinkedList.cpp
 *   Purpose: Function definitions for LinkedList class for CSC 1310 105 Program 2
 */
-
 #include "LinkedList.h"
+#include "InvItem.h"
+#include <iostream>
 
-// CONSTRUCTOR
+// CONSTRUCTOR / DESTRUCTOR
 
-template <typename L>
-LinkedList<L>::LinkedList() 
-{
-    this->HEAD = NULL;
-    this->TAIL = NULL;
-
-    this->counter = 0;
-}
-
-// DESTRUCTOR
-
-template <typename L>
-LinkedList<L>::~LinkedList() { delete HEAD; delete TAIL; }
+template <typename T> LinkedList<T>::LinkedList() { HEAD = NULL; TAIL = NULL; counter = 0; }
+template <typename T> LinkedList<T>::~LinkedList() { delete HEAD; }
 
 // ADDING
 
-template <typename L> // append function
-void LinkedList<L>::append(L* val)
-{
-    ListNode<L>* newNode = new ListNode<L>(val);
-    if (isEmpty()) 
-    {
-        HEAD = newNode; // If the list is empty, make newNode the head
-    }
-    else
-    {
-        ListNode<L>* temp = HEAD;
-        while (temp->getNext() != NULL) 
-        {
-            temp = temp->getNext();
-        }
-        temp->setNext(newNode);
+template <typename T>
+void LinkedList<T>::append(T* value) {
+    ListNode<T>* newNode = new ListNode<T>(value);
+    if (isEmpty()) {
+        this->HEAD = newNode;
+        this->TAIL = newNode;
+    } else {
+        this->TAIL->setNext(newNode);
+        this->TAIL = newNode;
     }
     counter++;
 }
 
-template <typename L> //prepend function
-void LinkedList<L>::prepend(L* val)
-{
-    ListNode<L>* newNode = new ListNode<L>(val);
-    if (isEmpty()) 
-    {
-        HEAD = newNode; // If the list is empty, make newNode the head
-    } 
-    else 
-    {
+template <typename T>
+void LinkedList<T>::prepend(T* value) {
+    ListNode<T>* newNode = new ListNode<T>(value);
+    if (isEmpty()) {
+        this->HEAD = newNode;
+        this->TAIL = newNode;
+    } else {
         newNode->setNext(HEAD);
-        HEAD = newNode;
+        this->HEAD = newNode;
     }
     counter++;
 }
 
-template <typename L> //insert function
-void LinkedList<L>::insert(L* val, int index)
-{
-    ListNode<L>* newNode = new ListNode<L>(val);
-    if (isEmpty())
-    {
-        HEAD = newNode; // If the list is empty, make newNode the head
-    }
-    else 
-    {
-        ListNode<L>* temp = HEAD;
-        int test = 0;
-
-        // Traverse to the node just before the desired index
-        while (temp != NULL && test < index - 1) 
-        {
-            temp = temp->getNext();      // Move to the next node
-            test++;         // Increment the current index
+template <typename T>
+void LinkedList<T>::insert(T* value, int index) {
+    if (index > this->counter - 1) {
+        append(value);
+    } else {
+        ListNode<T>* newNode = new ListNode<T>(value);
+        ListNode<T>* traverse = HEAD;
+        for (int i = 0; i < index - 1; i++) {
+            traverse = traverse->getNext();
         }
-        if (temp == NULL)
-        {
-            cout << "OUT OF BOUNDS \n INSERTING AT END INSTEAD" << endl;
-        }
-        newNode->setNext(temp->getNext());
-        temp->setNext(newNode);
+        newNode->setNext(traverse->getNext());
+        traverse->setNext(newNode);
     }
     counter++;
-}
-
-// SWAPPING
-
-template <typename L>
-void LinkedList<L>::swap(L& a, L& b) 
-{
-    L temp = a; 
-    a = b;      
-    b = temp;  
 }
 
 // REMOVING
 
-template <typename L> //remove particular item
-void LinkedList<L>::deleteItem(int index)
-{
-    int test = 0;
-    ListNode<L>* temp = HEAD;
-    ListNode<L>* temp2 = HEAD;
-    while (temp != NULL && test <= index) 
-    {
-        temp2 = temp;
-        temp = temp->getNext();
-        test++;         
+template <typename T>
+void LinkedList<T>::remove(int index) {
+    ListNode<T>* outNode;
+    ListNode<T>* prior;
+
+    if (index >= this->counter) {
+        cout << "INDEX OUT OF RANGE..." << endl;
+    } else {
+        outNode = HEAD;
+        for (int i = 0; i < index; i++) {
+            prior = outNode;
+            outNode = outNode->getNext();
+        }
+        if (prior == NULL) {
+            HEAD = outNode->getNext();
+            outNode->setNext(NULL);
+        } else {
+            prior->setNext(outNode->getNext());
+            outNode->setNext(NULL);
+        }
+        delete outNode;
     }
-    if (temp == NULL)
-    {
-        cout << "OUT OF BOUNDS \n FAILED TO DELETE ITEM" << endl;
-    }
-    temp2->next = temp->next;
-    delete temp;
-    counter--;
+    this->counter--;
 }
 
 // ACCESSING
 
-template <typename L>
-bool LinkedList<L>::isEmpty() { return HEAD == NULL; }
+template <typename T> bool LinkedList<T>::isEmpty() { return HEAD == NULL; }
+template <typename T> int LinkedList<T>::getCounter() { return this->counter; }
+template <typename T> ListNode<T>* LinkedList<T>::getHead() { return HEAD; }
+template <typename T> ListNode<T>* LinkedList<T>::getTail() { return TAIL; }
+template <typename T> ListNode<T>* LinkedList<T>::getItem(int index) {
+    ListNode<T>* outNode = HEAD;
 
-template <typename L> //get first item
-ListNode<L>* LinkedList<L>::getHead() { return HEAD; }
-
-template <typename L> //get last item
-ListNode<L>* LinkedList<L>::getTail() { return TAIL; }
-
-template <typename L> //get particular item
-ListNode<L>* LinkedList<L>::getItem(int index)
-{
-    int test = 0;
-    ListNode<L>* temp = HEAD;
-    while (temp != NULL && test <= index-1) 
-    {
-        temp = temp->getNext();
-        test++;         
-    }
-    if (temp == NULL)
-    {
-        cout << "OUT OF BOUNDS \n GETTING END INSTEAD" << endl;
-    }
-    return temp;
-}
-
-// SORTING
-
-/*
-QuickSort
-*/
-
-    // PRIVATE HELPERS
-
-template <typename L> //partition
-ListNode<L>* LinkedList<L>::partition(ListNode<L>* low, ListNode<L>* high, bool upDown)
-{
-    L pivot = high->getData();
-    ListNode<L>* i = low;
-
-    for (ListNode<L>* j = low ; j <= high ; j->getNext())
-    {
-        if ((upDown && j->getData() <= pivot) || (!upDown && j->getData() >= pivot)) 
-        {
-            if (i != j) 
-            {
-                swap(i->getData(), j->getData());
-            }
-        i = i->getNext();
+    if (index >= this->counter) {
+        cout << "INDEX OUT OF RANGE...\nRETURNING HEAD NODE" << endl;
+        return outNode;
+    } else {
+        for (int i = 0; i < index; i++) {
+            outNode = outNode->getNext();
         }
-    }
-    swap(i->getData(), high->getData());
-    return i;
-}
-
-template <typename L> //quicksortRUN
-void LinkedList<L>::quicksortRUN(ListNode<L>* low, ListNode<L>* high, bool upDown)
-{
-    if (high != NULL && low != high && low != high->getNext()) 
-    {
-        ListNode<L>* X = partition(low, high, upDown); 
-        quicksortRUN(low, X->getNext(), upDown); 
-        quicksortRUN(X->getNext(), high, upDown); 
+        return outNode;
     }
 }
 
-    // PUBLIC SORTER
+// QUICKSORT
 
-template <typename L> //quicksort
-void LinkedList<L>::quickSort(bool upDown)
-{
-    ListNode<L>* high = HEAD;
-    while (high && high->getNext() != NULL) 
-    {
-        high = high->getNext();
-    }
-    quicksortRUN(HEAD, high, upDown);
+template <typename T>
+ListNode<T>* LinkedList<T>::quickSort(ListNode<T>* head) {
+    ListNode<T>* tail = TAIL;
+
+    quickSortHelper(head, tail);
+    return head;
 }
 
-// OPERATOR OVERLOADING
+// PRIVATE QUICKSORT HELPERS
 
-template <typename L>
-ostream& operator<<(ostream& stream, const LinkedList<L>& list) 
-{
-    ListNode<L>* temp = list.HEAD; // Start from the head
-    if (list.isEmpty()) cout << "List is Empty." << endl;
-    while (temp != NULL)
-    {
-        int i = 1;
-        cout << i <<":"<< endl;
-        stream << temp->getData() << " "; // Output the data of each node
-        temp = temp->getNext(); // Move to the next node
-        i++;
+template <typename T>
+void LinkedList<T>::quickSortHelper(ListNode<T>* head, ListNode<T>* tail) {
+    if (head == NULL || head == TAIL) {
+        return;
     }
-    return stream; // Return the stream
+
+    ListNode<T>* pivot = partition(head, tail);
+
+    quickSortHelper(head, pivot);
+
+    quickSortHelper(pivot->getNext(), tail);
 }
+
+template <typename T>
+ListNode<T>* LinkedList<T>::partition(ListNode<T>* head, ListNode<T>* tail) {
+    ListNode<T>* pivot = head;
+    
+    ListNode<T>* pre = head;
+    ListNode<T>* curr = head;
+
+    while (curr != tail->getNext()) {
+        if (curr->getValue() < pivot->getValue()) {
+            swap(*curr->getValue(), *pre->getNext()->getValue());
+
+            pre = pre->getNext();
+        }
+
+        curr = curr->getNext();
+    }
+
+    swap(*pivot->getValue(), *pre->getValue());
+
+    return pre;
+}
+
+template <typename T>
+void LinkedList<T>::swap(T& item1, T& item2) {
+    T temp = item1;
+    item1 = item2;
+    item2 = temp;
+}
+
+template LinkedList<InvItem>::LinkedList();
+template LinkedList<InvItem>::~LinkedList();
+
+template void LinkedList<InvItem>::append(InvItem*);
+template void LinkedList<InvItem>::prepend(InvItem*);
+template void LinkedList<InvItem>::insert(InvItem*, int);
+
+template void LinkedList<InvItem>::remove(int);
+
+template bool LinkedList<InvItem>::isEmpty();
+template int LinkedList<InvItem>::getCounter();
+template ListNode<InvItem>* LinkedList<InvItem>::getHead();
+template ListNode<InvItem>* LinkedList<InvItem>::getTail();
+template ListNode<InvItem>* LinkedList<InvItem>::getItem(int index);
+
+template ListNode<InvItem>* LinkedList<InvItem>::quickSort(ListNode<InvItem>*);
+template void LinkedList<InvItem>::quickSortHelper(ListNode<InvItem>*, ListNode<InvItem>*);
+template ListNode<InvItem>* LinkedList<InvItem>::partition(ListNode<InvItem>*, ListNode<InvItem>*);
+template void LinkedList<InvItem>::swap(InvItem&, InvItem&);

@@ -15,6 +15,6 @@ ListNode.o		:		ListNode.cpp ListNode.h
 InvItem.o		:		InvItem.cpp InvItem.h
 						g++ -I ./ -c InvItem.cpp
 
-clean			:		Dirver.exe	
+clean			:		Driver.exe	
 						rm *.o *.exe
 						del *.o *.exe

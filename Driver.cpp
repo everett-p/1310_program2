@@ -1,201 +1,157 @@
+/*
+*   Author: Robert J. Morriss
+*   Date: 10/31/24
+*   File: Driver.cpp
+*   Purpose: Driver for 1310 105 Program 2
+*/
+
 #include "LinkedList.h"
-#include "invitem.h"
-#include <iostream>
+#include "InvItem.h"
+#include <fstream>
 
-using namespace std;
+void mainMenu();
+void addMenu(LinkedList<InvItem>&);
+void removeMenu(LinkedList<InvItem>&);
+void printMenu(LinkedList<InvItem>);
+int enterChoice(int, int);
 
-int printMenu();
-template <typename L> void addItem(LinkedList<L>*);
-template <typename L> void editItem(LinkedList<L>*);
-template <typename L> void deleteItems(LinkedList<L>*);
-template <typename L> void iterate(LinkedList<L>*);
+ int main() {
+    LinkedList<InvItem> itemList;
 
-int main()
-{
-    LinkedList<InvItem>* list;
-    int menuChoice;
-    do{
-        menuChoice = printMenu();
-        switch(menuChoice)
-        {
-            case 1:
-                cout << list;
-                break;
-            case 2:
-                addItem(list);
-                break;
-            case 3:
-                editItem(list);
-                break;
-            case 4:
-                deleteItems(list);
-                break;
-        }
-    }while(menuChoice != 5);
-
-    return 0;
-}
-
-int printMenu()
-{
-    int a = 0;
-    cout << "*** WHAT WOULD YOU LIKE TO DO? ***\n";
-    cout << "\t1) PRINT Full INVENTORY \n\t2) ADD NEW ITEM \n\t3) EDIT ITEM \n\t4) DELETE ITEM \n\t5) EXIT SYSTEM\n";
-    cin >> a;
-    while(a<1 || a>5)
-    {
-        cout << "Please Enter a Number 1-5. ";
-        cin >> a;
-    }
-    return a;  
-};
-
-template<typename L>
-void addItem(LinkedList<L>* list)
-{
-    int b = 0;
-    string name;
-    float price;
-    int weight, quantity, id;
-    InvItem* newItem;
-
-
-    cout << "Where would you like to add the Item?\n";
-    cout << "\t1) Add at the front \n\t2) Add at the end \n\t3) Add in a particlular place \n\t4) Go back";
-    cin >> b;
-
-    if (b != 4) {
-        cout << "\nWhat's the name of the Item?\nNAME: ";
-        cin.ignore();
-        getline(cin, name);
-        cout << "\nHow much is the item?\nPRICE: $";
-        cin >> price;
-        cout << "\nHow much does the item weigh?\nWEIGHT oz.: ";
-        cin >> weight;
-        cout << "\nHow many are in stock?\nQUANTITY: ";
-        cin >> quantity;
-        cout << "\nWhat's the items Bin ID?\nID: ";
-        cin >> id;
-
-        newItem = new InvItem(name, price, weight, quantity, id);
-    }
-
-    switch (b)
-    {
-        case 1:
-            list->prepend(newItem);
-            break;
-        case 2:
-            list->append(newItem);
-            break;
-        case 3:
-            int z;
-            cout << "Where would you like to add the item? (0 - " << list->getCounter() << ")" << endl;
-            cin >> z;
-            list->insert(newItem, z);
-            break;
-        case 4:
-            return;
-            break;
-    }
-
-};
-
-template<typename L>
-void editItem(LinkedList<L>* list)
-{
-    string n;
-    float p;
-    int w, q, id;
     int choice;
-    InvItem* edit;
 
-    cout << "Which Item would you like to modify?" << endl;
-    for (int i = 0; i < list->getCounter(); i++) {
-        cout << i << ". " <<list->getItem(i)->getData()->getName() << endl;
-    }
-    do {
-        cout << "CHOICE ";
-        cin >> choice;
-    } while (choice < 1 || choice >= list->getCounter());
-    edit = list->getItem(choice)->getData();
+    while (choice != 5) {
+        mainMenu();
+        choice = enterChoice(1, 5);
 
-    while (choice != 6) {
-        cout << "NOW EDITING: " << edit->getName();
-        cout << "CURRENT:" << endl;
-        cout << edit << endl;
-        cout << "What would you like to chance?" << endl;
-        cout << "1. Name\n2. Price\n3. Weight\n4. Quantity\n5. ID\n6. Exit" << endl;
-        do {
-            cout << "CHOICE: ";
-            cin >> choice;
-        } while (choice < 1 || choice > 6);
-
-        switch (choice) {
+        switch(choice) {
             case 1:
-                cout << "What's the new Name?\nNAME: ";
-                cin.ignore();
-                getline(cin, n);
-                edit->setName(n);
+                addMenu(itemList);
                 break;
             case 2:
-                cout << "What's the new Price?\nPRICE: ";
-                cin >> p;
-                edit->setPrice(p);
+                removeMenu(itemList);
                 break;
             case 3:
-                cout << "What's the new Weight?\nWEIGHT: ";
-                cin >> w;
-                edit->setWeight(w);
+                itemList.quickSort(itemList.getHead());
                 break;
             case 4:
-                cout << "What's the new Quantity?\nQUANTITY: ";
-                cin >> q;
-                edit->setQuantity(q);
-                break;
-            case 5:
-                cout << "What's the new Bin ID?\nID: ";
-                cin >> id;
-                edit->setID(id);
+                printMenu(itemList);
                 break;
             default:
                 break;
         }
     }
+    cout << "\nGOODBYE!!" << endl;
+    return 0;
+}
 
-};
+void mainMenu() {
+    cout << "****** MAIN MENU ******" << endl;
+    cout << "1. Add Item" << endl;
+    cout << "2. Remove Item" << endl;
+    cout << "3. Sort List" << endl;
+    cout << "4. Print" << endl;
+    cout << "5. Exit Program" << endl;
+}
 
-template <typename L>
-void deleteItems(LinkedList<L>* list)
-{
-    int itemNum;
-    cout << "Which item would you like to delete? ";
-    cin >> itemNum;
-    list->deleteItem(itemNum);
-};
+void addMenu(LinkedList<InvItem>& itemList) {
+    int choice, w, q, id;
+    string n;
+    float p;
 
-template <typename L>
-void iterate(LinkedList<L>* list)
-{
+    cout << "****** ADD MENU ******" << endl;
+    cout << "1. Append New Item" << endl;
+    cout << "2. Prepend New Item" << endl;
+    cout << "3. Insert New Item" << endl;
+    cout << "4. Cancel" << endl; 
+
+    choice = enterChoice(1, 4);
+
+    if (choice == 4) return; 
+
+    cout << "What's the name of the new item?\nNAME: ";
+    cin.ignore();
+    getline(cin, n);
+
+    cout << "What's the price of the new item?\nPRICE: $";
+    cin >> p;
+
+    cout << "What's the weight of the new item in oz.?\nWEIGHT: ";
+    cin >> w;
+
+    cout << "What's the quantity of stock of the new item?\nQUANTITY: ";
+    cin >> q;
+
+    cout << "What's the Bin ID of the new item?\nID: ";
+    cin >> id;
+
+    InvItem* newItem = new InvItem(n, p, w, q, id);
+
+    switch (choice) {
+        case 1:
+            itemList.append(newItem);
+            break;
+        case 2:
+            itemList.prepend(newItem);
+            break;
+        case 3:
+            cout << "What index should the new item be inserted to? (0 - " << itemList.getCounter()  << ")" << endl;
+            choice = enterChoice(0, itemList.getCounter());
+            itemList.insert(newItem, choice);
+            break;
+        default:
+            break;
+    }
+}
+
+void removeMenu(LinkedList<InvItem>& itemList) {
+    cout << "Which item would you like to remove?" << endl;
+    for (int i = 0; i < itemList.getCounter(); i++) {
+        cout << i + 1 << ". " << itemList.getItem(i)->getValue()->getName() << endl;
+    }
+    cout << "0. Cancel";
+    int choice = enterChoice(0, itemList.getCounter());
+
+    if (choice == 0) return;
+    
+    itemList.remove(choice - 1);
+}
+
+void printMenu(LinkedList<InvItem> itemList) {
+    ofstream out;
+    string fn;
+    cout << "Where do you want to print?" << endl;
+    cout << "1. Print to console" << endl;
+    cout << "2. Print to file" << endl;
+    cout << "3. Cancel" << endl;
+    int choice = enterChoice(1, 3);
+
+    switch (choice) {
+        case 1:
+            cout << itemList;
+            break;
+        case 2:
+            cout << "What is the filename (example.txt)?" << endl;
+            cin.ignore();
+            getline(cin, fn);
+            out.open(fn);
+            out << itemList;
+            out.close();
+            break;
+        default:
+            break;
+    }
+}
+
+int enterChoice(int lowerBound, int upperBound) {
     int choice;
-    cout << "Which Direction Would You Like to Iterate?\n1. Previous Item\n2. Next Item";
-    cin >> choice;
-    while(choice<1 || choice>2)
-    {
-        cout << "Please Enter Either 1 or 2. ";
+    cout << "CHOICE: ";
+    do {
         cin >> choice;
-    }
-    ListNode<L>* iteratorPtr = list->getHead();
-    ListNode<L>* tempPtr = iteratorPtr;
-
-    while(iteratorPtr != list)
-    {
-        tempPtr = iteratorPtr;
-        iteratorPtr->getNext();
-    }
-    if(choice == 1)
-        iteratorPtr = tempPtr;
-    else
-        iteratorPtr->getNext();
-};
-
+        if (choice < lowerBound || choice > upperBound) {
+            cout << "INVALID CHOICE.. Please enter a number between " << lowerBound << " and " << upperBound << endl;
+            cout << "CHOICE: ";
+        }
+    } while (choice < 1 || choice > 5);
+    return choice;
+}
