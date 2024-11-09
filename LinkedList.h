@@ -8,69 +8,47 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 
-#include <iostream>
 #include "ListNode.h"
+#include <iostream>
 
-using namespace std;
-
-template <typename L>
-class LinkedList
-{
+template <typename T>
+class LinkedList {
     private:
-    
-        ListNode<L>* HEAD;
-        ListNode<L>* TAIL;
+        ListNode<T>* HEAD;
+        ListNode<T>* TAIL;
 
         int counter;
 
-        // QUICKSORT HELPERS
-
-        ListNode<L>* partition(ListNode<L>*, ListNode<L>*, bool);
-        void quicksortRUN(ListNode<L>*, ListNode<L>*, bool);
-
+        void quickSortHelper(ListNode<T>*, ListNode<T>*);
+        ListNode<T>* partition(ListNode<T>*, ListNode<T>*);
+        void swap(T&, T&);
     public:
-
-        // CONSTRUCTOR
-
         LinkedList();
-
-        // DESTRUCTOR
-
         ~LinkedList();
 
-        // ADDING
+        void append(T*);
+        void prepend(T*);
+        void insert(T*, int);
 
-        void append(L*);
-        void prepend(L*);
-        void insert(L*, int);
-
-        // SWAPPING
-
-        void swap(L&, L&);
-
-        // REMOVING
-
-        void deleteItem(int);
-
-        // ACCESSING
+        void remove(int);
 
         bool isEmpty();
-        ListNode<L>* getHead();
-        ListNode<L>* getTail();
-        ListNode<L>* getItem(int);
+        ListNode<T>* getHead();
+        ListNode<T>* getTail();
+        ListNode<T>* getItem(int);
         int getCounter();
 
-        // SORTING
-        
-        void quickSort(bool upDown);
+        ListNode<T>* quickSort(ListNode<T>*);
 
-        // OPERATOR OVERLOADING
-
-        friend ostream& operator<<(ostream& stream, const LinkedList<L>& list);
-
-
-
+        friend ostream& operator<<(ostream& output, const LinkedList<T>& list)  {
+            ListNode<T>* traverse = list.HEAD;
+            output << "\nPrinting all " << list.counter << " Items in list" << endl;
+            while (traverse != NULL) {
+                output << "\n" << *traverse << endl;
+                traverse = traverse->getNext();
+            }
+            return output;
+        }
 };
-
 
 #endif

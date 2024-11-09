@@ -6,19 +6,22 @@
 */
 
 #include "ListNode.h"
+#include "InvItem.h"
 
-// CONSTRUCTOR / DESTRUCTOR
+template <typename T> ListNode<T>::ListNode(T* value) { this->value = value; }
+template <typename T> ListNode<T>::~ListNode() { delete this->next; }
 
-template <typename L>
-ListNode<L>::ListNode(L* val) { this->value = val; } 
-template <typename L> ListNode<L>::~ListNode() { delete this->next; } // chains deletes for easy clean-up; REMOVE FROM LIST BEFORE DELETE IF NOT CLEARING LIST
+template <typename T> T* ListNode<T>::getValue() { return this->value; }
+template <typename T> ListNode<T>* ListNode<T>::getNext() { return this->next; }
 
-// GETTERS
+template <typename T> void ListNode<T>::setValue(T* value) { this->value = value; }
+template <typename T> void ListNode<T>::setNext(ListNode<T>* newNode) { this->next = newNode; }
 
-template <typename L> L* ListNode<L>::getData() { return this->value; }
-template <typename L> ListNode<L>* ListNode<L>::getNext() { return this->next; }
+template ListNode<InvItem>::ListNode(InvItem* value);
+template ListNode<InvItem>::~ListNode();
 
-// SETTERS
+template InvItem* ListNode<InvItem>::getValue();
+template ListNode<InvItem>* ListNode<InvItem>::getNext();
 
-template <typename L> void ListNode<L>::setData(L val) { this->value = val; }
-template <typename L> void ListNode<L>::setNext(ListNode<L>* newNode) { this->next = newNode; } 
+template void ListNode<InvItem>::setValue(InvItem* value);
+template void ListNode<InvItem>::setNext(ListNode<InvItem>* newNode);
